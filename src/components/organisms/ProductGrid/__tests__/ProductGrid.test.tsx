@@ -3,6 +3,18 @@ import { render, screen } from '@testing-library/react';
 import ProductGrid from '../ProductGrid';
 import { CartProvider } from '@/contexts/CartContext';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string, options?: any) => {
+      if (key === 'add_to_cart') return 'Add to cart';
+      if (key === 'currency') return options && options.price ? `$${options.price}` : '$';
+      if (key === 'no_products_found') return 'No products found';
+      if (key === 'no_products_found_desc') return 'Try adjusting your filters or search terms.';
+      return key;
+    }
+  })
+}));
+
 jest.mock('next/image', () => {
   return function MockImage({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) {
     return <img src={src} alt={alt} {...props} />;

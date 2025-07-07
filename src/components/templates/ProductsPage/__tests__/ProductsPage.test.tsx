@@ -3,6 +3,16 @@ import { render, screen } from '@testing-library/react';
 import ProductsPage from '../ProductsPage';
 import { CartProvider } from '@/contexts/CartContext';
 
+// Mock i18n translation for placeholder
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key: string) => {
+    if (key === 'search_by_title') return 'Search by title';
+    if (key === 'all_categories') return 'All Categories';
+    if (key === 'default') return 'Default';
+    return key;
+  } })
+}));
+
 const renderWithCartProvider = (component: React.ReactElement) => {
   return render(
     <CartProvider>

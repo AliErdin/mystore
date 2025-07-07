@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import SearchBox from '../SearchBox';
 
-jest.useFakeTimers();
+
 
 describe('SearchBox', () => {
   const mockOnSearch = jest.fn();
@@ -17,58 +17,28 @@ describe('SearchBox', () => {
   });
 
   it('renders search input and button', () => {
-    render(<SearchBox onSearch={mockOnSearch} />);
+    render(<SearchBox onSearch={mockOnSearch} value="test" />);
     
     expect(screen.getByRole('searchbox')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
   });
 
   it('applies custom placeholder', () => {
-    render(<SearchBox placeholder="Search products..." onSearch={mockOnSearch} />);
+    render(<SearchBox placeholder="Search products..." onSearch={mockOnSearch} value="test" />);
     
     expect(screen.getByPlaceholderText('Search products...')).toBeInTheDocument();
   });
 
-  it('sets default value', () => {
-    render(<SearchBox defaultValue="initial search" onSearch={mockOnSearch} />);
-    
+  it('supports controlled value', () => {
+    render(<SearchBox value="controlled" onSearch={mockOnSearch} />);
     const input = screen.getByRole('searchbox') as HTMLInputElement;
-    expect(input.value).toBe('initial search');
-  });
-
-  it('handles input changes and debounces search', async () => {
-    render(<SearchBox onSearch={mockOnSearch} debounceMs={300} />);
-    
-    const input = screen.getByRole('searchbox');
-    
-    fireEvent.change(input, { target: { value: 'test search' } });
-    
-    expect(mockOnSearch).not.toHaveBeenCalled();
-    
-    jest.advanceTimersByTime(300);
-    
-    expect(mockOnSearch).toHaveBeenCalledWith('test search');
-  });
-
-  it('cancels previous debounce when typing quickly', async () => {
-    render(<SearchBox onSearch={mockOnSearch} debounceMs={300} />);
-    
-    const input = screen.getByRole('searchbox');
-    
-    fireEvent.change(input, { target: { value: 'first' } });
-    
-    jest.advanceTimersByTime(100);
-    
-    fireEvent.change(input, { target: { value: 'second' } });
-    
-    jest.advanceTimersByTime(300);
-    
-    expect(mockOnSearch).toHaveBeenCalledTimes(1);
-    expect(mockOnSearch).toHaveBeenCalledWith('second');
+    expect(input.value).toBe('controlled');
+    fireEvent.change(input, { target: { value: 'changed' } });
+    expect(mockOnSearch).toHaveBeenCalledWith('changed');
   });
 
   it('handles form submission', () => {
-    render(<SearchBox onSearch={mockOnSearch} />);
+    render(<SearchBox onSearch={mockOnSearch} value="test" />);
     
     const input = screen.getByRole('searchbox');
     const form = input.closest('form');
@@ -80,7 +50,7 @@ describe('SearchBox', () => {
   });
 
   it('prevents default form submission', () => {
-    render(<SearchBox onSearch={mockOnSearch} />);
+    render(<SearchBox onSearch={mockOnSearch} value="test" />);
     
     const input = screen.getByRole('searchbox');
     const form = input.closest('form');
@@ -94,7 +64,7 @@ describe('SearchBox', () => {
   });
 
   it('handles button click', () => {
-    render(<SearchBox onSearch={mockOnSearch} />);
+    render(<SearchBox onSearch={mockOnSearch} value="test" />);
     
     const input = screen.getByRole('searchbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -105,16 +75,4 @@ describe('SearchBox', () => {
     expect(mockOnSearch).toHaveBeenCalledWith('button search');
   });
 
-  it('uses custom debounce time', () => {
-    render(<SearchBox onSearch={mockOnSearch} debounceMs={500} />);
-    
-    const input = screen.getByRole('searchbox');
-    fireEvent.change(input, { target: { value: 'custom debounce' } });
-    
-    jest.advanceTimersByTime(300);
-    expect(mockOnSearch).not.toHaveBeenCalled();
-    
-    jest.advanceTimersByTime(200);
-    expect(mockOnSearch).toHaveBeenCalledWith('custom debounce');
-  });
 });

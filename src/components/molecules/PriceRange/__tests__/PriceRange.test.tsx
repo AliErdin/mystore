@@ -2,6 +2,9 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import PriceRange from '../PriceRange';
 
+beforeAll(() => { jest.useFakeTimers(); });
+afterAll(() => { jest.useRealTimers(); });
+
 describe('PriceRange', () => {
   const mockOnMinChange = jest.fn();
   const mockOnMaxChange = jest.fn();
@@ -64,7 +67,7 @@ describe('PriceRange', () => {
     
     const minInput = screen.getByPlaceholderText('Min');
     fireEvent.change(minInput, { target: { value: '25.00' } });
-    
+    jest.advanceTimersByTime(400);
     expect(mockOnMinChange).toHaveBeenCalledWith('25.00');
   });
 
@@ -78,7 +81,7 @@ describe('PriceRange', () => {
     
     const maxInput = screen.getByPlaceholderText('Max');
     fireEvent.change(maxInput, { target: { value: '150.00' } });
-    
+    jest.advanceTimersByTime(400);
     expect(mockOnMaxChange).toHaveBeenCalledWith('150.00');
   });
 
@@ -129,11 +132,10 @@ describe('PriceRange', () => {
     
     fireEvent.change(minInput, { target: { value: '19.99' } });
     fireEvent.change(maxInput, { target: { value: '299.95' } });
-    
+    jest.advanceTimersByTime(400);
     expect(mockOnMinChange).toHaveBeenCalledWith('19.99');
     expect(mockOnMaxChange).toHaveBeenCalledWith('299.95');
   });
-
   it('handles zero values', () => {
     render(
       <PriceRange 
@@ -144,7 +146,7 @@ describe('PriceRange', () => {
     
     const minInput = screen.getByPlaceholderText('Min');
     fireEvent.change(minInput, { target: { value: '0' } });
-    
+    jest.advanceTimersByTime(400);
     expect(mockOnMinChange).toHaveBeenCalledWith('0');
   });
 });
