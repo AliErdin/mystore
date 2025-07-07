@@ -2,19 +2,19 @@ import React, { Suspense } from 'react';
 import { getProducts, getCategories } from '@/lib/api';
 import ProductsPage from '@/components/templates/ProductsPage';
 
-interface HomeProps {
-  searchParams: {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{
     page?: string;
     search?: string;
     category?: string;
     sortBy?: string;
     minPrice?: string;
     maxPrice?: string;
-  };
-}
-
-export default async function Home({ searchParams }: HomeProps) {
-  const params = await searchParams;
+  }>;
+}) {
+  const params = (await searchParams) || {};
   const page = parseInt(params.page || '1');
   const limit = 10;
 

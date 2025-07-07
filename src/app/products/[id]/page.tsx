@@ -4,15 +4,10 @@ import { notFound } from 'next/navigation';
 import { getProduct } from '@/lib/api';
 import ProductDetailPage from '@/components/templates/ProductDetailPage';
 
-interface ProductPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
   try {
-    const product = await getProduct(parseInt(params.id));
+    const product = await getProduct(parseInt(resolvedParams.id));
     
     return {
       title: `${product.title} - My Store`,
@@ -38,9 +33,10 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   }
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   try {
-    const product = await getProduct(parseInt(params.id));
+    const product = await getProduct(parseInt(resolvedParams.id));
     
     if (!product) {
       notFound();
@@ -48,7 +44,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
     return <ProductDetailPage product={product} />;
   } catch {
-
     notFound();
   }
 }
