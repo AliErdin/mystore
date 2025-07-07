@@ -15,12 +15,11 @@ jest.mock('react-i18next', () => ({
   })
 }));
 
-import Image from 'next/image';
-jest.mock('next/image', () => {
-  return function MockImage({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) {
-    return <Image src={src} alt={alt} {...props} />;
-  };
-});
+jest.mock('next/image', () => ({
+  __esModule: true,
+  // eslint-disable-next-line @next/next/no-img-element
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img alt="" {...props} />,
+}));
 
 jest.mock('next/link', () => {
   return function MockLink({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: unknown }) {
