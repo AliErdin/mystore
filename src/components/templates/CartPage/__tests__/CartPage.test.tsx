@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import CartPage from '../CartPage';
 import { CartProvider } from '@/contexts/CartContext';
 jest.mock('next/link', () => {
@@ -16,18 +16,6 @@ const renderWithCartProvider = (component: React.ReactElement) => {
   );
 };
 
-const mockProduct = {
-  id: 1,
-  title: 'Test Product',
-  price: 29.99,
-  description: 'Test description',
-  category: 'electronics',
-  image: 'https://example.com/image.jpg',
-  rating: {
-    rate: 4.5,
-    count: 100
-  }
-};
 
 describe('CartPage', () => {
   it('renders empty cart message when cart is empty', () => {

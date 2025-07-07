@@ -44,7 +44,7 @@ export default function PriceRange({
       onMinChange(localMin);
     }, 400);
     return () => { if (minTimeout.current) clearTimeout(minTimeout.current); };
-  }, [localMin]);
+  }, [localMin, onMinChange]);
 
   useEffect(() => {
     if (maxTimeout.current) clearTimeout(maxTimeout.current);
@@ -52,7 +52,7 @@ export default function PriceRange({
       onMaxChange(localMax);
     }, 400);
     return () => { if (maxTimeout.current) clearTimeout(maxTimeout.current); };
-  }, [localMax]);
+  }, [localMax, onMaxChange]);
 
   return (
     <PriceContainer>

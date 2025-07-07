@@ -5,7 +5,7 @@ import { CartProvider } from '@/contexts/CartContext';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, options?: any) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       if (key === 'add_to_cart') return 'Add to cart';
       if (key === 'currency') return options && options.price ? `$${options.price}` : '$';
       if (key === 'no_products_found') return 'No products found';
@@ -15,9 +15,10 @@ jest.mock('react-i18next', () => ({
   })
 }));
 
+import Image from 'next/image';
 jest.mock('next/image', () => {
   return function MockImage({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) {
-    return <img src={src} alt={alt} {...props} />;
+    return <Image src={src} alt={alt} {...props} />;
   };
 });
 
