@@ -34,25 +34,51 @@ export default function PriceRange({
 
   const minTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const maxTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => { setLocalMin(minValue); }, [minValue]);
-  useEffect(() => { setLocalMax(maxValue); }, [maxValue]);
+  const isSyncingMin = useRef(false);
+  const isSyncingMax = useRef(false);
 
   useEffect(() => {
+    if (minValue !== localMin) {
+      isSyncingMin.current = true;
+      setLocalMin(minValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minValue]);
+
+  // Only call onMinChange if localMin was changed by user
+  useEffect(() => {
+    if (isSyncingMin.current) {
+      isSyncingMin.current = false;
+      return;
+    }
     if (minTimeout.current) clearTimeout(minTimeout.current);
     minTimeout.current = setTimeout(() => {
       onMinChange(localMin);
     }, 400);
     return () => { if (minTimeout.current) clearTimeout(minTimeout.current); };
-  }, [localMin, onMinChange]);
+  }, [localMin]);
 
+  // Sync localMax with prop, but do not call onMaxChange
   useEffect(() => {
+    if (maxValue !== localMax) {
+      isSyncingMax.current = true;
+      setLocalMax(maxValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxValue]);
+
+  // Only call onMaxChange if localMax was changed by user
+  useEffect(() => {
+    if (isSyncingMax.current) {
+      isSyncingMax.current = false;
+      return;
+    }
     if (maxTimeout.current) clearTimeout(maxTimeout.current);
     maxTimeout.current = setTimeout(() => {
       onMaxChange(localMax);
     }, 400);
     return () => { if (maxTimeout.current) clearTimeout(maxTimeout.current); };
-  }, [localMax, onMaxChange]);
+  }, [localMax]);
 
   return (
     <PriceContainer>
