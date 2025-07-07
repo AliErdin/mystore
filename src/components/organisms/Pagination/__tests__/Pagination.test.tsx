@@ -2,6 +2,20 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import Pagination from '../Pagination';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string, options?: any) => {
+      if (key === 'pagination_info') {
+        const start = options && options.startItem !== undefined ? options.startItem : '';
+        const end = options && options.endItem !== undefined ? options.endItem : '';
+        const total = options && options.totalItems !== undefined ? options.totalItems : '';
+        return `${start}-${end} of ${total}`;
+      }
+      return key;
+    }
+  })
+}));
+
 const mockPush = jest.fn();
 const mockSearchParams = new URLSearchParams();
 
@@ -43,8 +57,7 @@ describe('Pagination', () => {
       />
     );
     
-    expect(screen.getByText(/showing/i)).toBeInTheDocument();
-    expect(screen.getByText(/50/)).toBeInTheDocument();
+    expect(document.body.textContent).toContain('11-20 of 50');
   });
 
   it('disables previous button on first page', () => {
@@ -258,8 +271,6 @@ describe('Pagination', () => {
       />
     );
     
-    expect(screen.getByText(/21/)).toBeInTheDocument();
-    expect(screen.getByText(/30/)).toBeInTheDocument();
-    expect(screen.getByText(/47/)).toBeInTheDocument();
+    expect(document.body.textContent).toContain('21-30 of 47');
   });
 });
