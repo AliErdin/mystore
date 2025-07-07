@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/lib/i18n-react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useCart } from '@/contexts/CartContext';
@@ -64,7 +66,15 @@ const CartButtonContainer = styled.div`
 export default function Header() {
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
+  const { i18n: i18next } = useTranslation();
+  const currentLang = i18next.language === 'tr' ? 'TR' : 'EN';
+  const nextLang = i18next.language === 'tr' ? 'en' : 'tr';
 
+  const handleLangSwitch = () => {
+    i18n.changeLanguage(nextLang);
+  };
+
+  const { t } = useTranslation();
   return (
     <HeaderContainer>
       <HeaderContent>
@@ -76,12 +86,12 @@ export default function Header() {
         <Nav>
           <NavLink href="/">
             <Typography variant="body1" weight="medium">
-              Products
+              {t('products')}
             </Typography>
           </NavLink>
           <CartButtonContainer>
             <Button variant="primary" onClick={() => window.location.href = '/cart'}>
-              Cart
+              {t('cart')}
             </Button>
             {totalItems > 0 && (
               <Badge variant="danger" position="top-right">
@@ -89,6 +99,9 @@ export default function Header() {
               </Badge>
             )}
           </CartButtonContainer>
+          <Button variant="secondary" onClick={handleLangSwitch} style={{marginLeft: 16}}>
+            {currentLang}
+          </Button>
         </Nav>
       </HeaderContent>
     </HeaderContainer>

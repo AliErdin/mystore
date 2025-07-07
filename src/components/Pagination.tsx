@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 
@@ -57,6 +58,8 @@ export default function Pagination({
 }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const { t } = useTranslation();
 
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -136,7 +139,7 @@ export default function Pagination({
       </PageButton>
       
       <PageInfo>
-        Showing {startItem}-{endItem} of {totalItems} products
+        {t('pagination_info', { startItem, endItem, totalItems })}
       </PageInfo>
     </PaginationContainer>
   );

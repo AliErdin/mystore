@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
+import { useTranslation } from 'react-i18next';
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ export default function Pagination({
   totalItems, 
   itemsPerPage 
 }: PaginationProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -129,7 +131,7 @@ export default function Pagination({
       
       <PageInfo>
         <Typography variant="body2" color="secondary">
-          Showing {startItem}-{endItem} of {totalItems} products
+          {t('pagination_info', { startItem, endItem, totalItems })}
         </Typography>
       </PageInfo>
     </PaginationContainer>
