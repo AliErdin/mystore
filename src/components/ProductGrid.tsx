@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Product } from '@/types';
 import ProductCard from './ProductCard';
@@ -49,6 +50,8 @@ interface ProductGridProps {
 }
 
 export default function ProductGrid({ products, loading = false }: ProductGridProps) {
+  const { t } = useTranslation();
+
   if (loading) {
     return (
       <Grid>
@@ -59,13 +62,13 @@ export default function ProductGrid({ products, loading = false }: ProductGridPr
     );
   }
 
-  if (products.length === 0) {
+  if (!products.length) {
     return (
       <Grid>
         <EmptyState>
-          <EmptyTitle>No products found</EmptyTitle>
+          <EmptyTitle>{t('no_products_found')}</EmptyTitle>
           <EmptyDescription>
-            Try adjusting your search criteria or filters to find what you're looking for.
+            {t('no_products_found_desc')}
           </EmptyDescription>
         </EmptyState>
       </Grid>

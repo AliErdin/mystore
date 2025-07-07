@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -68,6 +69,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const { t, i18n } = useTranslation();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -97,14 +99,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
         <PriceContainer>
           <Typography variant="h6" color="primary" weight="bold">
-            ${product.price.toFixed(2)}
+            {t('currency', { price: product.price.toFixed(2) })}
           </Typography>
           <Button 
             variant="success" 
             fullWidth 
             onClick={handleAddToCart}
           >
-            Add to Cart
+            {t('add_to_cart')}
           </Button>
         </PriceContainer>
       </CardContent>

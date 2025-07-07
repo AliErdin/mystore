@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Product } from '@/types';
 import ProductFilters from '@/components/organisms/ProductFilters';
@@ -40,14 +41,15 @@ export default function ProductsPage({
   totalItems,
   itemsPerPage,
 }: ProductsPageProps) {
+  const { t } = useTranslation();
   return (
     <Container>
       <Header>
         <Typography variant="h1" color="dark" weight="bold">
-          Products
+          {t('products')}
         </Typography>
         <Typography variant="body1" color="secondary">
-          Discover our amazing collection of products
+          {t('products_subtitle')}
         </Typography>
       </Header>
 

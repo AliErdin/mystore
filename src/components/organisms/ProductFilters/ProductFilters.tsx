@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import FilterGroup from '@/components/molecules/FilterGroup';
 import SearchBox from '@/components/molecules/SearchBox';
-import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import PriceRange from '@/components/molecules/PriceRange';
 import Select from '@/components/atoms/Select';
 import Button from '@/components/atoms/Button';
@@ -34,6 +34,7 @@ interface ProductFiltersProps {
 }
 
 export default function ProductFilters({ categories }: ProductFiltersProps) {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -77,7 +78,7 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
   }, [updateFilters]);
 
   const categoryOptions = [
-    { value: '', label: 'All Categories' },
+    { value: '', label: t('all_categories') },
     ...categories.map((category) => ({
       value: category,
       label: category.charAt(0).toUpperCase() + category.slice(1),
@@ -85,25 +86,25 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
   ];
 
   const sortOptions = [
-    { value: '', label: 'Default' },
-    { value: 'price-asc', label: 'Price: Low to High' },
-    { value: 'price-desc', label: 'Price: High to Low' },
-    { value: 'rating', label: 'Rating' },
-    { value: 'title', label: 'Title A-Z' },
+    { value: '', label: t('default') },
+    { value: 'price-asc', label: t('price_low_to_high') },
+    { value: 'price-desc', label: t('price_high_to_low') },
+    { value: 'rating', label: t('rating') },
+    { value: 'title', label: t('title_az') },
   ];
 
   return (
     <FiltersContainer>
       <FiltersGrid>
-        <FilterGroup label="Search Products">
+        <FilterGroup label={t('search_products')}>
           <SearchBox
-            placeholder="Search by title..."
+            placeholder={t('search_by_title')}
             value={search}
             onSearch={handleSearch}
           />
         </FilterGroup>
 
-        <FilterGroup label="Category">
+        <FilterGroup label={t('category')}>
           <Select
             options={categoryOptions}
             defaultValue={searchParams.get('category') || ''}
@@ -111,7 +112,7 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
           />
         </FilterGroup>
 
-        <FilterGroup label="Sort By">
+        <FilterGroup label={t('sort_by')}>
           <Select
             options={sortOptions}
             defaultValue={searchParams.get('sortBy') || ''}
@@ -119,7 +120,7 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
           />
         </FilterGroup>
 
-        <FilterGroup label="Price Range">
+        <FilterGroup label={t('price_range')}>
           <PriceRange
             minValue={searchParams.get('minPrice') || ''}
             maxValue={searchParams.get('maxPrice') || ''}
@@ -130,7 +131,7 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
 
         <FilterGroup label="">
           <Button variant="secondary" onClick={clearFilters}>
-            Clear Filters
+            {t('clear_filters')}
           </Button>
         </FilterGroup>
       </FiltersGrid>

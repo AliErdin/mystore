@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useCart } from '@/contexts/CartContext';
@@ -91,15 +92,16 @@ const CartBadge = styled.span`
 export default function Header() {
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
+  const { t } = useTranslation();
 
   return (
     <HeaderContainer>
       <HeaderContent>
         <Logo href="/">My Store</Logo>
         <Nav>
-          <NavLink href="/">Products</NavLink>
+          <NavLink href="/">{t('products')}</NavLink>
           <CartButton href="/cart">
-            Cart
+            {t('cart')}
             {totalItems > 0 && <CartBadge>{totalItems}</CartBadge>}
           </CartButton>
         </Nav>

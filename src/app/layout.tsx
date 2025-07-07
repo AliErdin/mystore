@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import I18nProvider from './I18nProvider';
 import { CartProvider } from '@/contexts/CartContext';
 import Header from '@/components/organisms/Header';
 import StyledComponentsRegistry from '@/lib/registry';
@@ -22,20 +23,25 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params?: { locale?: string }
 }>) {
+  const locale = params?.locale || 'en';
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <StyledComponentsRegistry>
-          <CartProvider>
-            <Header />
-            <main style={{ minHeight: 'calc(100vh - 80px)', backgroundColor: 'white' }}>
-              {children}
-            </main>
-          </CartProvider>
-        </StyledComponentsRegistry>
+        <I18nProvider>
+          <StyledComponentsRegistry>
+            <CartProvider>
+              <Header />
+              <main style={{ minHeight: 'calc(100vh - 80px)', backgroundColor: 'white' }}>
+                {children}
+              </main>
+            </CartProvider>
+          </StyledComponentsRegistry>
+        </I18nProvider>
       </body>
     </html>
   );
