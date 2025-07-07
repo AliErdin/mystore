@@ -45,6 +45,14 @@ export default function PriceRange({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minValue]);
 
+  useEffect(() => {
+    if (maxValue !== localMax) {
+      isSyncingMax.current = true;
+      setLocalMax(maxValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxValue]);
+
   // Only call onMinChange if localMin was changed by user
   useEffect(() => {
     if (isSyncingMin.current) {
