@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
         ],
       },
     };
-  } catch (error) {
+  } catch {
     return {
       title: 'Product Not Found - My Store',
       description: 'The requested product could not be found.',
@@ -47,8 +47,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
 
     return <ProductDetailPage product={product} />;
-  } catch (error) {
-    console.error('Error loading product:', error);
+  } catch {
+
     notFound();
   }
 }

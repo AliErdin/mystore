@@ -17,7 +17,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const params = await searchParams;
   const page = parseInt(params.page || '1');
   const limit = 10;
-  const offset = (page - 1) * limit;
+
 
   try {
     const [allProducts, categories] = await Promise.all([
