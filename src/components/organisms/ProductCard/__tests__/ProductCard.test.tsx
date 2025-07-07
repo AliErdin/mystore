@@ -5,7 +5,7 @@ import { CartProvider } from '@/contexts/CartContext';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, options?: any) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       if (key === 'add_to_cart') return 'Add to cart';
       if (key === 'currency') return options && options.price ? `$${options.price}` : '$';
       return key;

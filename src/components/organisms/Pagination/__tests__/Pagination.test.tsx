@@ -4,7 +4,7 @@ import Pagination from '../Pagination';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string, options?: any) => {
+    t: (key: string, options?: Record<string, unknown>) => {
       if (key === 'pagination_info') {
         const start = options && options.startItem !== undefined ? options.startItem : '';
         const end = options && options.endItem !== undefined ? options.endItem : '';
