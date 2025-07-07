@@ -3,6 +3,16 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import ProductCard from '../ProductCard';
 import { CartProvider } from '@/contexts/CartContext';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string, options?: any) => {
+      if (key === 'add_to_cart') return 'Add to cart';
+      if (key === 'currency') return options && options.price ? `$${options.price}` : '$';
+      return key;
+    }
+  })
+}));
+
 jest.mock('next/image', () => {
   return function MockImage({ src, alt, ...props }: { src: string; alt: string; [key: string]: unknown }) {
     return <div data-testid="next-image-mock" data-src={src} data-alt={alt} {...props} />;
