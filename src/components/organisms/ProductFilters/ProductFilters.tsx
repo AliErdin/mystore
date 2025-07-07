@@ -45,20 +45,20 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
   }, [searchParams]);
 
   const updateFilters = useCallback((key: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    
-    if(key !== 'page'){
+  const params = new URLSearchParams(searchParams.toString());
+
+  if (value) {
+    params.set(key, value);
+  } else {
+    params.delete(key);
+  }
+
+  if(key !== 'page'){
     params.delete('page');
-    }
-    
-    router.push(`/?${params.toString()}`);
-  }, [router, searchParams]);
+  }
+
+  router.push(`/?${params.toString()}`);
+}, [router, searchParams]);
 
   const clearFilters = () => {
     router.push('/');
