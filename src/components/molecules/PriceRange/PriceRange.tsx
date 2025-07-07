@@ -34,11 +34,30 @@ export default function PriceRange({
 
   const minTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const maxTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => { setLocalMin(minValue); }, [minValue]);
-  useEffect(() => { setLocalMax(maxValue); }, [maxValue]);
+  const isSyncingMin = useRef(false);
+  const isSyncingMax = useRef(false);
 
   useEffect(() => {
+    if (minValue !== localMin) {
+      isSyncingMin.current = true;
+      setLocalMin(minValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minValue]);
+
+  useEffect(() => {
+    if (maxValue !== localMax) {
+      isSyncingMax.current = true;
+      setLocalMax(maxValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxValue]);
+
+  useEffect(() => {
+    if (isSyncingMin.current) {
+      isSyncingMin.current = false;
+      return;
+    }
     if (minTimeout.current) clearTimeout(minTimeout.current);
     minTimeout.current = setTimeout(() => {
       onMinChange(localMin);
@@ -47,6 +66,10 @@ export default function PriceRange({
   }, [localMin, onMinChange]);
 
   useEffect(() => {
+    if (isSyncingMax.current) {
+      isSyncingMax.current = false;
+      return;
+    }
     if (maxTimeout.current) clearTimeout(maxTimeout.current);
     maxTimeout.current = setTimeout(() => {
       onMaxChange(localMax);
