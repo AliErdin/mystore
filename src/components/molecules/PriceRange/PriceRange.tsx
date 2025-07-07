@@ -53,6 +53,7 @@ export default function PriceRange({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxValue]);
 
+  // Only call onMinChange if localMin was changed by user
   useEffect(() => {
     if (isSyncingMin.current) {
       isSyncingMin.current = false;
@@ -63,8 +64,18 @@ export default function PriceRange({
       onMinChange(localMin);
     }, 400);
     return () => { if (minTimeout.current) clearTimeout(minTimeout.current); };
-  }, [localMin, onMinChange]);
+  }, [localMin]);
 
+  // Sync localMax with prop, but do not call onMaxChange
+  useEffect(() => {
+    if (maxValue !== localMax) {
+      isSyncingMax.current = true;
+      setLocalMax(maxValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [maxValue]);
+
+  // Only call onMaxChange if localMax was changed by user
   useEffect(() => {
     if (isSyncingMax.current) {
       isSyncingMax.current = false;
@@ -75,7 +86,7 @@ export default function PriceRange({
       onMaxChange(localMax);
     }, 400);
     return () => { if (maxTimeout.current) clearTimeout(maxTimeout.current); };
-  }, [localMax, onMaxChange]);
+  }, [localMax]);
 
   return (
     <PriceContainer>
