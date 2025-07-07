@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Product } from '@/types';
 import ProductCard from '@/components/organisms/ProductCard';
 import Typography from '@/components/atoms/Typography';
+import { useTranslation } from 'react-i18next';
 
 const Grid = styled.div`
   display: grid;
@@ -59,6 +60,7 @@ interface ProductGridProps {
 }
 
 export default function ProductGrid({ products, loading = false }: ProductGridProps) {
+  const { t } = useTranslation();
   if (loading) {
     return (
       <LoadingGrid>
@@ -74,10 +76,10 @@ export default function ProductGrid({ products, loading = false }: ProductGridPr
       <Grid>
         <EmptyState>
           <Typography variant="h3" color="dark" align="center">
-            No products found
+            {t('no_products_found')}
           </Typography>
           <Typography variant="body1" color="secondary" align="center">
-            Try adjusting your search criteria or filters to find what you&apos;re looking for.
+            {t('no_products_found_desc')}
           </Typography>
         </EmptyState>
       </Grid>

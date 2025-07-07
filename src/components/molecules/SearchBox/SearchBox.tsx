@@ -21,11 +21,14 @@ const SearchInputWrapper = styled.div`
   flex: 1;
 `;
 
+import { useTranslation } from 'react-i18next';
+
 export default function SearchBox({
-  placeholder = 'Search...',
+  placeholder,
   value,
   onSearch,
 }: SearchBoxProps) {
+  const { t } = useTranslation();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(value);
@@ -37,13 +40,13 @@ export default function SearchBox({
         <SearchInputWrapper>
           <Input
             type="search"
-            placeholder={placeholder}
+            placeholder={placeholder || t('search_by_title')}
             value={value}
             onChange={(e) => onSearch(e.target.value)}
           />
         </SearchInputWrapper>
         <Button type="submit" variant="primary">
-          Search
+          {t('search_lbl')}
         </Button>
       </SearchContainer>
     </form>
