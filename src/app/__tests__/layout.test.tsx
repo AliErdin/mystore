@@ -78,7 +78,7 @@ describe('RootLayout', () => {
     expect(screen.getByTestId('main-content')).toBeInTheDocument();
   });
 
-  it('applies correct styling to main element', () => {
+  it('applies minimum height style to main element', () => {
     render(
       <RootLayout>
         <div>Content</div>
@@ -87,7 +87,7 @@ describe('RootLayout', () => {
     const mainElement = screen.getByRole('main');
     expect(mainElement).toHaveAttribute('style');
     const style = mainElement.getAttribute('style');
-    expect(style).toContain('background-color: white');
+    expect(style).toContain('min-height: calc(100vh - 80px)');
   });
 
   it('handles multiple children', () => {

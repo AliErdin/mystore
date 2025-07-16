@@ -22,26 +22,33 @@ interface InputProps {
 
 const StyledInput = styled.input`
   padding: 0.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid ${({ theme }) => theme.colors.text}22;
   border-radius: 0.25rem;
   font-size: 0.875rem;
   width: 100%;
   transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: ${({ theme }) => theme.colors.background};
+  color: ${({ theme }) => theme.colors.text};
+
   
   &:focus {
     outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}44;
+    outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    color: ${({ theme }) => theme.colors.primary};
   }
   
   &:disabled {
-    background-color: #f8f9fa;
+    background-color: ${({ theme }) => theme.colors.background};
     cursor: not-allowed;
     opacity: 0.6;
   }
   
   &::placeholder {
-    color: #6c757d;
+    color: ${({ theme }) => theme.colors.text}99;
   }
 `;
 
