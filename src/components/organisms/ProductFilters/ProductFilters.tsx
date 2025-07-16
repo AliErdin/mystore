@@ -11,10 +11,10 @@ import Select from '@/components/atoms/Select';
 import Button from '@/components/atoms/Button';
 
 const FiltersContainer = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
   padding: 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${({ theme }) => theme.colors.shadow};
   margin-bottom: 2rem;
 `;
 

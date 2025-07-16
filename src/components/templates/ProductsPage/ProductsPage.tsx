@@ -8,12 +8,13 @@ import ProductFilters from '@/components/organisms/ProductFilters';
 import ProductGrid from '@/components/organisms/ProductGrid';
 import Pagination from '@/components/organisms/Pagination';
 import Typography from '@/components/atoms/Typography';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -42,13 +43,14 @@ export default function ProductsPage({
   itemsPerPage,
 }: ProductsPageProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   return (
     <Container>
       <Header>
-        <Typography variant="h1" color="dark" weight="bold">
+        <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
           {t('products')}
         </Typography>
-        <Typography variant="body1" color="secondary">
+        <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
           {t('products_subtitle')}
         </Typography>
       </Header>

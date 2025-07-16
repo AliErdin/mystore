@@ -6,6 +6,7 @@ import { Product } from '@/types';
 import ProductCard from '@/components/organisms/ProductCard';
 import Typography from '@/components/atoms/Typography';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Grid = styled.div`
   display: grid;
@@ -61,6 +62,7 @@ interface ProductGridProps {
 
 export default function ProductGrid({ products, loading = false }: ProductGridProps) {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   if (loading) {
     return (
       <LoadingGrid>
@@ -75,10 +77,10 @@ export default function ProductGrid({ products, loading = false }: ProductGridPr
     return (
       <Grid>
         <EmptyState>
-          <Typography variant="h3" color="dark" align="center">
+          <Typography variant="h3" color={theme === 'light' ? 'dark' : 'light'} align="center">
             {t('no_products_found')}
           </Typography>
-          <Typography variant="body1" color="secondary" align="center">
+          <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} align="center">
             {t('no_products_found_desc')}
           </Typography>
         </EmptyState>

@@ -17,6 +17,7 @@ const FilterContainer = styled.div`
 
 const Label = styled(Typography)`
   margin-bottom: 0;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export default function FilterGroup({ label, children }: FilterGroupProps) {

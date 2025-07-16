@@ -10,6 +10,7 @@ import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import Badge from '@/components/atoms/Badge';
 import Rating from '@/components/molecules/Rating';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -23,10 +24,11 @@ const Container = styled.div`
 
 const Breadcrumb = styled.nav`
   margin-bottom: 2rem;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 const BreadcrumbLink = styled(Link)`
-  color: #007bff;
+  color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
   
   &:hover {
@@ -50,7 +52,7 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 500px;
-  background: #ffffff;
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
   overflow: hidden;
 
@@ -111,6 +113,7 @@ interface ProductDetailPageProps {
 export default function ProductDetailPage({ product }: ProductDetailPageProps) {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const { theme } = useTheme();
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -130,7 +133,7 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
   return (
     <Container>
       <Breadcrumb>
-        <Typography variant="body2" color="secondary">
+        <Typography variant="body2" color={theme === 'light' ? 'dark' : 'light'}>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
           {' > '}
           <BreadcrumbLink href={`/?category=${product.category}`}>
@@ -157,7 +160,7 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
             {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
           </CategoryBadge>
 
-          <Typography variant="h1" color="dark" weight="bold">
+          <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
             {product.title}
           </Typography>
 
@@ -167,7 +170,7 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
             size="medium"
           />
 
-          <Typography variant="body1" color="dark">
+          <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
             {product.description}
           </Typography>
 

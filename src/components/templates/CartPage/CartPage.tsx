@@ -7,12 +7,13 @@ import styled from 'styled-components';
 import { useCart } from '@/contexts/CartContext';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
+import { useTheme } from '@/contexts/ThemeContext';
 
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.background};
 
   @media (max-width: 768px) {
     padding: 1rem;
@@ -34,9 +35,9 @@ const CartContainer = styled.div`
 `;
 
 const CartItems = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${({ theme }) => theme.colors.shadow};
   overflow: hidden;
 `;
 
@@ -45,7 +46,7 @@ const CartItem = styled.div`
   grid-template-columns: 80px 1fr auto auto;
   gap: 1rem;
   padding: 1.5rem;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   align-items: center;
 
   &:last-child {
@@ -62,7 +63,7 @@ const ItemImage = styled.div`
   position: relative;
   width: 80px;
   height: 80px;
-  background: #f8f9fa;
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 0.25rem;
   overflow: hidden;
 
@@ -79,12 +80,12 @@ const ItemInfo = styled.div`
 `;
 
 const ItemTitle = styled(Link)`
-  color: #333;
+  color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   font-weight: 600;
   
   &:hover {
-    color: #007bff;
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
@@ -122,9 +123,9 @@ const ItemPrice = styled.div`
 `;
 
 const CartSummary = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${({ theme }) => theme.colors.shadow};
   padding: 1.5rem;
   height: fit-content;
 `;
@@ -136,16 +137,16 @@ const SummaryRow = styled.div`
   padding: 0.5rem 0;
   
   &:not(:last-child) {
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   }
 `;
 
 const EmptyCart = styled.div`
   text-align: center;
   padding: 4rem 2rem;
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${({ theme }) => theme.colors.shadow};
 `;
 
 export default function CartPage() {
@@ -160,20 +161,21 @@ export default function CartPage() {
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
+  const { theme } = useTheme();
 
   if (cartItems.length === 0) {
     return (
       <Container>
         <Header>
-          <Typography variant="h1" color="dark" weight="bold">
+          <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
             Shopping Cart
           </Typography>
         </Header>
         <EmptyCart>
-          <Typography variant="h3" color="dark" align="center">
+          <Typography variant="h3" color={theme === 'light' ? 'dark' : 'light'} align="center">
             Your cart is empty
           </Typography>
-          <Typography variant="body1" color="secondary" align="center">
+          <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} align="center">
             Start shopping to add items to your cart.
           </Typography>
           <Link href="/">
@@ -189,7 +191,7 @@ export default function CartPage() {
   return (
     <Container>
       <Header>
-        <Typography variant="h1" color="dark" weight="bold">
+        <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
           Shopping Cart ({totalItems} items)
         </Typography>
       </Header>
@@ -211,7 +213,7 @@ export default function CartPage() {
                 <ItemTitle href={`/products/${item.id}`}>
                   {item.title}
                 </ItemTitle>
-                <Typography variant="body2" color="secondary">
+                <Typography variant="body2" color={theme === 'light' ? 'dark' : 'light'}>
                   ${item.price.toFixed(2)} each
                 </Typography>
               </ItemInfo>
@@ -243,7 +245,7 @@ export default function CartPage() {
               </QuantityControls>
 
               <ItemPrice>
-                <Typography variant="h6" color="dark" weight="bold">
+                <Typography variant="h6" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
                   ${(item.price * item.quantity).toFixed(2)}
                 </Typography>
               </ItemPrice>
@@ -252,30 +254,30 @@ export default function CartPage() {
         </CartItems>
 
         <CartSummary>
-          <Typography variant="h5" color="dark" weight="bold" style={{ marginBottom: '1rem' }}>
+          <Typography variant="h5" color={theme === 'light' ? 'dark' : 'light'} weight="bold" style={{ marginBottom: '1rem' }}>
             Order Summary
           </Typography>
           
           <SummaryRow>
-            <Typography variant="body1" color="dark">
+            <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
               Items ({totalItems})
             </Typography>
-            <Typography variant="body1" color="dark" weight="medium">
+            <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} weight="medium">
               ${totalPrice.toFixed(2)}
             </Typography>
           </SummaryRow>
           
           <SummaryRow>
-            <Typography variant="body1" color="dark">
+            <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
               Shipping
             </Typography>
-            <Typography variant="body1" color="success" weight="medium">
+            <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} weight="medium">
               Free
             </Typography>
           </SummaryRow>
           
           <SummaryRow>
-            <Typography variant="h6" color="dark" weight="bold">
+            <Typography variant="h6" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
               Total
             </Typography>
             <Typography variant="h6" color="primary" weight="bold">
