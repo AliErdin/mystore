@@ -1,4 +1,31 @@
 import '@testing-library/jest-dom'
+import { render } from '@testing-library/react'
+import { ThemeProvider } from 'styled-components'
+import { lightTheme } from './src/themes'
+
+// override render to wrap with ThemeProvider
+const customRender = (ui, options = {}) =>
+  render(ui, {
+    wrapper: ({ children }) => (
+      <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>
+    ),
+    ...options,
+  });
+
+// override render using jest.mock
+jest.mock('@testing-library/react', () => {
+  const actual = jest.requireActual('@testing-library/react');
+  return {
+    ...actual,
+    render: (ui, options = {}) =>
+      actual.render(ui, {
+        wrapper: ({ children }) => (
+          <ThemeProvider theme={lightTheme}>{children}</ThemeProvider>
+        ),
+        ...options,
+      }),
+  };
+});
 
 const localStorageMock = {
   getItem: jest.fn(),

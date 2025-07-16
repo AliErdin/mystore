@@ -3,6 +3,7 @@ import I18nProvider from './I18nProvider';
 import { CartProvider } from '@/contexts/CartContext';
 import Header from '@/components/organisms/Header';
 import StyledComponentsRegistry from '@/lib/registry';
+import ThemeProvider from '@/contexts/ThemeContext';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -34,12 +35,14 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <I18nProvider>
           <StyledComponentsRegistry>
+            <ThemeProvider>
             <CartProvider>
               <Header />
-              <main style={{ minHeight: 'calc(100vh - 80px)', backgroundColor: 'white' }}>
+              <main style={{ minHeight: 'calc(100vh - 80px)' }}>
                 {children}
               </main>
             </CartProvider>
+                      </ThemeProvider>
           </StyledComponentsRegistry>
         </I18nProvider>
       </body>

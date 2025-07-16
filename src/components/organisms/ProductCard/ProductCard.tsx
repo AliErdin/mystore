@@ -12,9 +12,9 @@ import Rating from '@/components/molecules/Rating';
 import { useTranslation } from 'react-i18next';
 
 const Card = styled.div`
-  background: white;
+  background: ${({ theme }) => theme.colors.background};
   border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px ${({ theme }) => theme.colors.shadow};
   overflow: hidden;
   transition: transform 0.2s, box-shadow 0.2s;
   height: 100%;
@@ -23,7 +23,7 @@ const Card = styled.div`
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 16px ${({ theme }) => theme.colors.shadow};
   }
 `;
 
@@ -31,7 +31,7 @@ const ImageContainer = styled.div`
   position: relative;
   width: 100%;
   height: 200px;
-  background: #fff;
+  background: ${({ theme }) => theme.colors.background};
   img{
     padding: 1rem;
   }
@@ -48,7 +48,7 @@ const CardContent = styled.div`
 const Title = styled(Link)`
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
