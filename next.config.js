@@ -15,6 +15,9 @@ const nextConfig = {
       },
     ],
   },
+  compiler: {
+    styledComponents: true,
+  },
   experimental: {
     optimizePackageImports: ['styled-components'],
   },

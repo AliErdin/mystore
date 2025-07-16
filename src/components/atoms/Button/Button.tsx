@@ -12,6 +12,7 @@ interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset';
   style?: React.CSSProperties;
+  suppressHydrationWarning?: boolean;
 }
 
 const buttonVariants = {
@@ -113,6 +114,7 @@ export default function Button({
   onClick,
   type = 'button',
   style,
+  suppressHydrationWarning,
 }: ButtonProps) {
   return (
     <StyledButton
@@ -123,6 +125,7 @@ export default function Button({
       disabled={disabled}
       onClick={onClick}
       style={style}
+      suppressHydrationWarning={suppressHydrationWarning}
       data-variant={variant}
       data-size={size}
     >
