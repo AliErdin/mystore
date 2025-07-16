@@ -11,6 +11,7 @@ interface TypographyProps {
   weight?: 'normal' | 'medium' | 'semibold' | 'bold';
   className?: string;
   style?: React.CSSProperties;
+  suppressHydrationWarning?: boolean;
 }
 
 const variantStyles = {
@@ -114,6 +115,7 @@ export default function Typography({
   weight,
   className,
   style,
+  suppressHydrationWarning,
 }: TypographyProps) {
   return (
     <StyledTypography
@@ -124,6 +126,7 @@ export default function Typography({
       weight={weight}
       className={className}
       style={style}
+      suppressHydrationWarning={suppressHydrationWarning}
     >
     {children}
     </StyledTypography>

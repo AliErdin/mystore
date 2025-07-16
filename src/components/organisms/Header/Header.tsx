@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Settings as SettingsIcon, ShoppingCart, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import i18n from '@/lib/i18n-react';
@@ -95,6 +95,8 @@ const SettingsDropdown = styled.div`
 `;
 
 export default function Header() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [menuOpen, setMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { getTotalItems } = useCart();
@@ -120,16 +122,16 @@ export default function Header() {
         </Logo>
         <Nav>
           <NavLink href="/">
-            <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} weight="medium">
+            <Typography variant="body1" suppressHydrationWarning color={theme === 'light' ? 'dark' : 'light'} weight="medium">
               {t('products')}
             </Typography>
           </NavLink>
           <CartButtonContainer>
-            <Button variant="primary" onClick={() => window.location.href = '/cart'} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <Button variant="primary" suppressHydrationWarning onClick={() => window.location.href = '/cart'} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               <ShoppingCart size={16} />
               {t('cart')}
             </Button>
-            {totalItems > 0 && (
+            {mounted && totalItems > 0 && (
               <Badge variant="danger" position="top-right">
                 {totalItems}
               </Badge>
