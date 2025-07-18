@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import styled from 'styled-components';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
@@ -43,13 +43,14 @@ export default function Pagination({
   const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
+    const pathname = usePathname();
 
   const goToPage = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     
     params.set('page', page.toString());
     
-    router.push(`/?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   const getVisiblePages = () => {
