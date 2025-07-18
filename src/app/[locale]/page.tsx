@@ -1,6 +1,17 @@
 import React, { Suspense } from 'react';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import { getProducts, getCategories } from '@/lib/api';
 import ProductsPage from '@/components/templates/ProductsPage';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale });
+  return {
+    title: `${t('products')} - ${t('my_store')}`,
+    description: t('products_subtitle'),
+  };
+}
 
 export default async function Home({
   searchParams,

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Input from '@/components/atoms/Input';
 import Typography from '@/components/atoms/Typography';
+import { useTranslations } from 'next-intl';
 
 interface PriceRangeProps {
   minValue?: string;
@@ -29,6 +30,7 @@ export default function PriceRange({
   onMinChange,
   onMaxChange,
 }: PriceRangeProps) {
+  const t = useTranslations();
   const [localMin, setLocalMin] = useState(minValue);
   const [localMax, setLocalMax] = useState(maxValue);
 
@@ -53,7 +55,6 @@ export default function PriceRange({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxValue]);
 
-  // Only call onMinChange if localMin was changed by user
   useEffect(() => {
     if (isSyncingMin.current) {
       isSyncingMin.current = false;
@@ -64,18 +65,9 @@ export default function PriceRange({
       onMinChange(localMin);
     }, 400);
     return () => { if (minTimeout.current) clearTimeout(minTimeout.current); };
-  }, [localMin]);
+  }, [localMin, onMinChange]);
 
-  // Sync localMax with prop, but do not call onMaxChange
-  useEffect(() => {
-    if (maxValue !== localMax) {
-      isSyncingMax.current = true;
-      setLocalMax(maxValue);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [maxValue]);
 
-  // Only call onMaxChange if localMax was changed by user
   useEffect(() => {
     if (isSyncingMax.current) {
       isSyncingMax.current = false;
@@ -86,13 +78,13 @@ export default function PriceRange({
       onMaxChange(localMax);
     }, 400);
     return () => { if (maxTimeout.current) clearTimeout(maxTimeout.current); };
-  }, [localMax]);
+  }, [localMax, onMaxChange]);
 
   return (
     <PriceContainer>
       <Input
         type="number"
-        placeholder="Min"
+        placeholder={t('min')}
         min="0"
         step="0.01"
         value={localMin}
@@ -101,7 +93,7 @@ export default function PriceRange({
       <Separator variant="body2" color="secondary">-</Separator>
       <Input
         type="number"
-        placeholder="Max"
+        placeholder={t('max')}
         min="0"
         step="0.01"
         value={localMax}

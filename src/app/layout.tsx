@@ -1,50 +1,31 @@
-import type { Metadata } from "next";
-import I18nProvider from './I18nProvider';
-import { CartProvider } from '@/contexts/CartContext';
-import Header from '@/components/organisms/Header';
-import StyledComponentsRegistry from '@/lib/registry';
-import ThemeProvider from '@/contexts/ThemeContext';
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { cookies } from 'next/headers';
+import { Geist, Geist_Mono } from 'next/font/google';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-geist-sans',
 });
-
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-geist-mono',
 });
 
-export const metadata: Metadata = {
-  title: "My Store - Quality Products at Great Prices",
-  description: "Discover amazing products from our fake store. Browse electronics, jewelry, clothing and more with great deals and fast shipping.",
-};
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params
-}: Readonly<{
+}: {
   children: React.ReactNode;
-  params?: { locale?: string }
-}>) {
-  const locale = params?.locale || 'en';
+}) {
+  const localeCookie = (await cookies()).get('NEXT_LOCALE');
+  const locale = localeCookie?.value ?? 'en';
+
+  const fontClasses = `${geistSans.variable} ${geistMono.variable}`;
+
   return (
     <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <I18nProvider>
-          <StyledComponentsRegistry>
-            <ThemeProvider>
-            <CartProvider>
-              <Header />
-              <main style={{ minHeight: 'calc(100vh - 80px)' }}>
-                {children}
-              </main>
-            </CartProvider>
-                      </ThemeProvider>
-          </StyledComponentsRegistry>
-        </I18nProvider>
+      <body className={fontClasses}>
+        {children}
       </body>
     </html>
   );

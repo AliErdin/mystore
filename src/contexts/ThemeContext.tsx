@@ -11,7 +11,6 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue>({
   theme: 'light',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggleTheme: () => {},
 });
 
@@ -25,17 +24,19 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<ThemeName>('light');
+export default function ThemeProvider({ children, initialTheme = 'light' }: { children: React.ReactNode; initialTheme?: ThemeName }) {
+  const [theme, setTheme] = useState<ThemeName>(() => {
+    if (typeof window === 'undefined') {
+      return initialTheme;
+    }
+    return (localStorage.getItem('theme') as ThemeName) || initialTheme;
+  });
 
-  useEffect(() => {
-    const stored = (typeof window !== 'undefined' && localStorage.getItem('theme')) as ThemeName | null;
-    if (stored) setTheme(stored);
-  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('theme', theme);
+      document.cookie = `theme=${theme}; Path=/; SameSite=Lax;`;
     }
   }, [theme]);
 

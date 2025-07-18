@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Settings as SettingsIcon, ShoppingCart, Globe } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import i18n from '@/lib/i18n-react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { useCart } from '@/contexts/CartContext';
@@ -11,8 +9,8 @@ import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
 import Badge from '@/components/atoms/Badge';
 import { useTheme } from '@/contexts/ThemeContext';
-
-
+import { useTranslations } from 'next-intl';
+import { useRouter, usePathname } from 'next/navigation';
 
 const HeaderContainer = styled.header`
   background-color: ${({ theme }) => theme.colors.headerBg};
@@ -101,23 +99,31 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
-  const { i18n: i18next } = useTranslation();
-  const currentLang = i18next.language === 'tr' ? 'TR' : 'EN';
-  const nextLang = i18next.language === 'tr' ? 'en' : 'tr';
+  const t = useTranslations();
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
 
-  const handleLangSwitch = () => {
-    i18n.changeLanguage(nextLang);
-  };
-
-  const { t } = useTranslation();
   const toggleMenu = () => setMenuOpen((o) => !o);
+
+  const changeLanguage = (newLocale: 'en' | 'tr') => {
+    
+    setMenuOpen(false);
+    
+    const segments = pathname.split('/');
+
+    segments[1] = newLocale;
+    const newPath = segments.join('/');
+    
+    router.push(newPath);
+  };
 
   return (
     <HeaderContainer>
       <HeaderContent>
         <Logo href="/">
           <Typography variant="h4" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
-            My Store
+            {t('my_store')}
           </Typography>
         </Logo>
         <Nav>
@@ -138,14 +144,15 @@ export default function Header() {
             )}
           </CartButtonContainer>
           <SettingsWrapper>
-            <SettingsButton onClick={toggleMenu} aria-label="Settings"><SettingsIcon size={20} /></SettingsButton>
+            <SettingsButton onClick={toggleMenu} aria-label={t('settings')}><SettingsIcon size={20} /></SettingsButton>
             {menuOpen && (
               <SettingsDropdown>
                 <Button variant="secondary" onClick={toggleTheme} style={{ width: '100%' }}>
-                  {theme === 'light' ? <><Moon size={14} style={{marginRight:4}}/> Dark Mode</> : <><Sun size={14} style={{marginRight:4}}/> Light Mode</>}
+                  {theme === 'light' ? <><Moon size={14} style={{marginRight:4}}/> {t('dark_mode')}</> : <><Sun size={14} style={{marginRight:4}}/> {t('light_mode')}</>}
                 </Button>
-                <Button variant="secondary" onClick={handleLangSwitch} style={{ width: '100%' }}>
-                  <Globe size={14} style={{marginRight:4}} /> {currentLang === 'EN' ? 'TR' : 'EN'}
+                <Button variant="secondary" onClick={() => changeLanguage(locale === 'en' ? 'tr' : 'en')} style={{ width: '100%' }}>
+                  <Globe size={14} style={{marginRight:4}}/>
+                  {locale === 'en' ? 'Türkçe' : 'English'}
                 </Button>
               </SettingsDropdown>
             )}

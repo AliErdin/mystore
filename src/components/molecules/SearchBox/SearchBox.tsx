@@ -21,14 +21,14 @@ const SearchInputWrapper = styled.div`
   flex: 1;
 `;
 
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 export default function SearchBox({
   placeholder,
   value,
   onSearch,
 }: SearchBoxProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(value);

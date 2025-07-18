@@ -8,7 +8,12 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
   moduleNameMapper: {
+    '^@/lib/i18n-react$': '<rootDir>/__mocks__/dummy.js',
+    '^@/messages/(.*)$': '<rootDir>/messages/$1',
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^react-i18next$': '<rootDir>/__mocks__/react-i18next.js',
+    '^next-intl$': '<rootDir>/__mocks__/next-intl.js',
+    '^next-intl/(.*)$': '<rootDir>/__mocks__/next-intl.js',
   },
   collectCoverageFrom: [
     'src/**/*.{js,jsx,ts,tsx}',
@@ -16,6 +21,10 @@ const customJestConfig = {
     '!src/app/layout.tsx',
     '!src/app/globals.css',
   ],
+  transformIgnorePatterns: [
+    "/node_modules/(?!(next-intl)/)"
+  ],
+  coverageProvider: 'v8',
   coverageThreshold: {
     global: {
       branches: 60,

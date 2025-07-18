@@ -3,6 +3,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Typography from '@/components/atoms/Typography';
+import { useTranslations } from 'next-intl';
 
 interface RatingProps {
   rating: number;
@@ -45,6 +46,7 @@ export default function Rating({
   showCount = true, 
   size = 'medium' 
 }: RatingProps) {
+  const t = useTranslations();
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -70,7 +72,7 @@ export default function Rating({
       <Stars size={size}>{renderStars(rating)}</Stars>
       {showCount && (
         <RatingText variant="body2" color="secondary" size={size}>
-          {rating} {count && `(${count})`}
+          {count ? t('rating_count', { rating: rating, count: count }) : rating}
         </RatingText>
       )}
     </RatingContainer>
