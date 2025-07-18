@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -8,7 +8,8 @@ import { Product } from '@/types';
 import { useCart } from '@/contexts/CartContext';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
-import Rating from '@/components/molecules/Rating';
+import dynamic from 'next/dynamic';
+const Rating = dynamic(() => import('@/components/molecules/Rating'), { ssr: false });
 import { useTranslations } from 'next-intl';
 
 const Card = styled.div`
@@ -70,7 +71,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const t = useTranslations();
   const [added, setAdded] = useState(false);
@@ -127,3 +128,5 @@ export default function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
+
+export default memo(ProductCard);
