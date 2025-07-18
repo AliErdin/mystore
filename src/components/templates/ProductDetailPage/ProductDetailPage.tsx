@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import Typography from '@/components/atoms/Typography';
 import Badge from '@/components/atoms/Badge';
 import Rating from '@/components/molecules/Rating';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslations } from 'next-intl';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -69,6 +70,7 @@ const ProductInfo = styled.div`
 
 const CategoryBadge = styled(Badge)`
   align-self: flex-start;
+  border-radius: 5px;
 `;
 
 const PriceSection = styled.div`
@@ -113,13 +115,19 @@ interface ProductDetailPageProps {
 export default function ProductDetailPage({ product }: ProductDetailPageProps) {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { theme } = useTheme();
+  const t = useTranslations();
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
     }
     setQuantity(1);
+    setAdded(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setAdded(false), 1500);
   };
 
   const incrementQuantity = () => {
@@ -130,11 +138,17 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
     setQuantity(prev => Math.max(1, prev - 1));
   };
 
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   return (
     <Container>
       <Breadcrumb>
         <Typography variant="body2" color={theme === 'light' ? 'dark' : 'light'}>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          <BreadcrumbLink href="/">{t('home')}</BreadcrumbLink>
           {' > '}
           <BreadcrumbLink href={`/?category=${product.category}`}>
             {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
@@ -150,6 +164,7 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
             src={product.image}
             alt={product.title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
             style={{ objectFit: 'contain' }}
             priority
           />
@@ -176,14 +191,14 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
 
           <PriceSection>
             <Typography variant="h2" color="primary" weight="bold">
-              ${product.price.toFixed(2)}
+              {t('currency', { price: product.price.toFixed(2) })}
             </Typography>
           </PriceSection>
 
           <ActionSection>
             <QuantitySelector>
               <Typography variant="body1" weight="medium">
-                Quantity:
+                {t('quantity')}
               </Typography>
               <QuantityButton
                 variant="secondary"
@@ -208,7 +223,7 @@ export default function ProductDetailPage({ product }: ProductDetailPageProps) {
               size="large"
               onClick={handleAddToCart}
             >
-              Add {quantity} to Cart
+              {added ? t('added_to_cart') : t('add_quantity_to_cart', { quantity })}
             </Button>
           </ActionSection>
         </ProductInfo>

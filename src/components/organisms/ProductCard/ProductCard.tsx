@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import { useCart } from '@/contexts/CartContext';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import Rating from '@/components/molecules/Rating';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 const Card = styled.div`
   background: ${({ theme }) => theme.colors.background};
@@ -72,13 +72,24 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
-  const { t } = useTranslation();
+  const t = useTranslations();
+  const [added, setAdded] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+    setAdded(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setAdded(false), 1500);
   };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <Card>
@@ -87,8 +98,8 @@ export default function ProductCard({ product }: ProductCardProps) {
           src={product.image}
           alt={product.title}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 200px"
           style={{ objectFit: 'contain' }}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
       </ImageContainer>
       <CardContent>
@@ -109,7 +120,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             fullWidth 
             onClick={handleAddToCart}
           >
-            {t('add_to_cart')}
+            {added ? t('added_to_cart') : t('add_to_cart')}
           </Button>
         </PriceContainer>
       </CardContent>

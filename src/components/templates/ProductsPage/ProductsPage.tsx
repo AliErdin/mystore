@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Product } from '@/types';
 import ProductFilters from '@/components/organisms/ProductFilters';
@@ -9,6 +8,7 @@ import ProductGrid from '@/components/organisms/ProductGrid';
 import Pagination from '@/components/organisms/Pagination';
 import Typography from '@/components/atoms/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslations } from 'next-intl';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -42,8 +42,8 @@ export default function ProductsPage({
   totalItems,
   itemsPerPage,
 }: ProductsPageProps) {
-  const { t } = useTranslation();
   const { theme } = useTheme();
+  const t = useTranslations();
   return (
     <Container>
       <Header>

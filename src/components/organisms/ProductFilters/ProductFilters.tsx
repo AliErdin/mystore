@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import FilterGroup from '@/components/molecules/FilterGroup';
 import SearchBox from '@/components/molecules/SearchBox';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import PriceRange from '@/components/molecules/PriceRange';
 import Select from '@/components/atoms/Select';
 import Button from '@/components/atoms/Button';
@@ -34,7 +34,7 @@ interface ProductFiltersProps {
 }
 
 export default function ProductFilters({ categories }: ProductFiltersProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
 

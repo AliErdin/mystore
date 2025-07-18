@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useServerInsertedHTML } from 'next/navigation';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import { shouldForwardProp } from './styledComponentsConfig';
 
 export default function StyledComponentsRegistry({
   children,
@@ -18,10 +19,16 @@ export default function StyledComponentsRegistry({
     return <>{styles}</>;
   });
 
-  if (typeof window !== 'undefined') return <>{children}</>;
+  if (typeof window !== 'undefined') {
+    return (
+      <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+        {children}
+      </StyleSheetManager>
+    );
+  }
 
   return (
-    <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
+    <StyleSheetManager shouldForwardProp={shouldForwardProp} sheet={styledComponentsStyleSheet.instance}>
       {children}
     </StyleSheetManager>
   );
