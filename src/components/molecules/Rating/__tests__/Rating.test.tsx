@@ -14,7 +14,7 @@ describe('Rating', () => {
     render(<Rating rating={4.2} count={150} showCount={true} />);
     
     const ratingElements = screen.getAllByText((content, element) => {
-      return element?.textContent?.includes('150') || false;
+      return element?.textContent?.includes('4.2 (150)') || false;
     });
     expect(ratingElements.length).toBeGreaterThan(0);
   });
@@ -23,7 +23,7 @@ describe('Rating', () => {
     render(<Rating rating={4.2} count={150} showCount={false} />);
     
     const countElement = screen.queryByText((content, element) => {
-      return element?.textContent?.includes('150') || false;
+      return element?.textContent?.includes('4.2 (150)') || false;
     });
     expect(countElement).not.toBeInTheDocument();
   });
@@ -32,7 +32,7 @@ describe('Rating', () => {
     render(<Rating rating={3.8} count={75} />);
     
     const ratingElements = screen.getAllByText((content, element) => {
-      return element?.textContent?.includes('75') || false;
+      return element?.textContent?.includes('3.8 (75)') || false;
     });
     expect(ratingElements.length).toBeGreaterThan(0);
   });
@@ -56,7 +56,7 @@ describe('Rating', () => {
     
     expect(screen.getByText(/[★☆]/)).toBeInTheDocument();
     const ratingElements = screen.getAllByText((content, element) => {
-      return element?.textContent?.includes('42') || false;
+      return element?.textContent?.includes('3.7 (42)') || false;
     });
     expect(ratingElements.length).toBeGreaterThan(0);
   });
@@ -91,7 +91,7 @@ describe('Rating', () => {
     render(<Rating rating={4.5} count={0} />);
     
     const ratingElements = screen.getAllByText((content, element) => {
-      return element?.textContent?.includes('0') || false;
+      return element?.textContent?.includes('4.5') || false;
     });
     expect(ratingElements.length).toBeGreaterThan(0);
   });
@@ -101,7 +101,7 @@ describe('Rating', () => {
     
     expect(screen.getByText(/[★☆]/)).toBeInTheDocument();
     const ratingElements = screen.getAllByText((content, element) => {
-      return element?.textContent?.includes('25') || false;
+      return element?.textContent?.includes('3.5 (25)') || false;
     });
     expect(ratingElements.length).toBeGreaterThan(0);
   });

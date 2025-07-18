@@ -29,7 +29,7 @@ Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açarak
 - **TypeScript**
 - **Styled-components** (CSS-in-JS için)
 - **Jest** ve **Testing Library** (Birim ve entegrasyon testleri için)
-- **i18next & react-i18next** (Çoklu dil desteği için)
+- **next-intl** (Çoklu dil desteği için)
 
 ## Atomic Design Yapısı
 

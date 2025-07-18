@@ -1,6 +1,17 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import RootLayout from '../layout';
+import ActualLayout from '../[locale]/layout';
+import { act } from 'react';
+
+async function renderRoot(ui: React.ReactNode) {
+  let element: React.ReactElement;
+  await act(async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    element = await (ActualLayout as any)({ children: ui, params: { locale: 'en' } });
+  });
+  render(element!);
+}
+
 
 jest.mock('@/components/organisms/Header/Header', () => {
   return function MockHeader() {
@@ -26,31 +37,31 @@ jest.mock('next/navigation', () => ({
 }));
 
 describe('RootLayout', () => {
-  it('renders children correctly', () => {
-    render(
-      <RootLayout>
+  it('renders children correctly', async () => {
+    await renderRoot(
+      
         <div data-testid="test-child">Test Content</div>
-      </RootLayout>
+      
     );
     expect(screen.getByTestId('test-child')).toBeInTheDocument();
     expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
-  it('renders Header component', () => {
-    render(
-      <RootLayout>
+  it('renders Header component', async () => {
+    await renderRoot(
+      
         <div>Content</div>
-      </RootLayout>
+      
     );
     expect(screen.getByTestId('header')).toBeInTheDocument();
     expect(screen.getByText('Header Component')).toBeInTheDocument();
   });
 
-  it('has proper HTML structure', () => {
-    render(
-      <RootLayout>
+  it('has proper HTML structure', async () => {
+    await renderRoot(
+      
         <div>Content</div>
-      </RootLayout>
+      
     );
     const htmlElement = document.documentElement;
     expect(htmlElement).toBeInTheDocument();
@@ -58,31 +69,31 @@ describe('RootLayout', () => {
     expect(bodyElement).toBeInTheDocument();
   });
 
-  it('includes CartProvider wrapper', () => {
-    render(
-      <RootLayout>
+  it('includes CartProvider wrapper', async () => {
+    await renderRoot(
+      
         <div data-testid="wrapped-content">Wrapped Content</div>
-      </RootLayout>
+      
     );
     expect(screen.getByTestId('wrapped-content')).toBeInTheDocument();
   });
 
-  it('renders main content area', () => {
-    render(
-      <RootLayout>
+  it('renders main content area', async () => {
+    await renderRoot(
+      
         <div data-testid="main-content">Main Content</div>
-      </RootLayout>
+      
     );
     const mainElement = screen.getByRole('main');
     expect(mainElement).toBeInTheDocument();
     expect(screen.getByTestId('main-content')).toBeInTheDocument();
   });
 
-  it('applies minimum height style to main element', () => {
-    render(
-      <RootLayout>
+  it('applies minimum height style to main element', async () => {
+    await renderRoot(
+      
         <div>Content</div>
-      </RootLayout>
+      
     );
     const mainElement = screen.getByRole('main');
     expect(mainElement).toHaveAttribute('style');
@@ -90,24 +101,24 @@ describe('RootLayout', () => {
     expect(style).toContain('min-height: calc(100vh - 80px)');
   });
 
-  it('handles multiple children', () => {
-    render(
-      <RootLayout>
+  it('handles multiple children', async () => {
+    await renderRoot(
+      <>
         <div data-testid="child-1">Child 1</div>
         <div data-testid="child-2">Child 2</div>
         <div data-testid="child-3">Child 3</div>
-      </RootLayout>
+      </>
     );
     expect(screen.getByTestId('child-1')).toBeInTheDocument();
     expect(screen.getByTestId('child-2')).toBeInTheDocument();
     expect(screen.getByTestId('child-3')).toBeInTheDocument();
   });
 
-  it('maintains proper document structure', () => {
-    render(
-      <RootLayout>
+  it('maintains proper document structure', async () => {
+    await renderRoot(
+      
         <div>Content</div>
-      </RootLayout>
+      
     );
     const header = screen.getByTestId('header');
     const main = screen.getByRole('main');
@@ -116,11 +127,11 @@ describe('RootLayout', () => {
     expect(header.compareDocumentPosition(main) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
-  it('provides cart context to children', () => {
-    render(
-      <RootLayout>
+  it('provides cart context to children', async () => {
+    await renderRoot(
+      
         <div data-testid="context-consumer">Context Consumer</div>
-      </RootLayout>
+      
     );
     expect(screen.getByTestId('context-consumer')).toBeInTheDocument();
   });

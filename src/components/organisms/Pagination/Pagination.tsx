@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 
 const PaginationContainer = styled.div`
   display: flex;
@@ -15,16 +15,8 @@ const PaginationContainer = styled.div`
   margin: 2rem 0;
 `;
 
-const PageButton = styled(Button)<{ $active?: boolean }>`
+const PageButton = styled(Button)`
   min-width: 2.5rem;
-  ${({ $active }) => $active && `
-    background-color: #007bff !important;
-    color: white !important;
-    
-    &:hover {
-      background-color: #0056b3 !important;
-    }
-  `}
 `;
 
 const PageInfo = styled.div`
@@ -48,7 +40,7 @@ export default function Pagination({
   totalItems, 
   itemsPerPage 
 }: PaginationProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -113,7 +105,6 @@ export default function Pagination({
           size="small"
           onClick={() => typeof page === 'number' ? goToPage(page) : undefined}
           disabled={typeof page !== 'number'}
-          $active={page === currentPage}
           aria-current={page === currentPage ? 'page' : undefined}
         >
           {page}

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslations } from 'next-intl';
 
 const Container = styled.div`
   max-width: 1200px;
@@ -156,31 +157,57 @@ export default function CartPage() {
     removeFromCart, 
     getTotalPrice, 
     getTotalItems,
-    clearCart 
+    clearCart,
+    isCartLoaded 
   } = useCart();
 
   const totalItems = getTotalItems();
   const totalPrice = getTotalPrice();
   const { theme } = useTheme();
+  const t = useTranslations();
+  
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
+  if (!isCartLoaded || !isMounted) {
+    return (
+      <Container>
+        <Header>
+          <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
+            {t('shopping_cart')}
+          </Typography>
+        </Header>
+        
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
+            {t('loading')}...
+          </Typography>
+        </div>
+      </Container>
+    );
+  }
+  
   if (cartItems.length === 0) {
     return (
       <Container>
         <Header>
           <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
-            Shopping Cart
+            {t('shopping_cart')}
           </Typography>
         </Header>
         <EmptyCart>
           <Typography variant="h3" color={theme === 'light' ? 'dark' : 'light'} align="center">
-            Your cart is empty
+            {t('cart_empty')}
           </Typography>
           <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} align="center">
-            Start shopping to add items to your cart.
+            {t('cart_empty_desc')}
           </Typography>
           <Link href="/">
             <Button variant="primary" style={{ marginTop: '1rem' }}>
-              Continue Shopping
+              {t('continue_shopping')}
             </Button>
           </Link>
         </EmptyCart>
@@ -192,7 +219,7 @@ export default function CartPage() {
     <Container>
       <Header>
         <Typography variant="h1" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
-          Shopping Cart ({totalItems} items)
+          {t('shopping_cart_items', { count: totalItems })}
         </Typography>
       </Header>
 
@@ -205,6 +232,7 @@ export default function CartPage() {
                   src={item.image}
                   alt={item.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 120px" 
                   style={{ objectFit: 'contain' }}
                 />
               </ItemImage>
@@ -214,7 +242,7 @@ export default function CartPage() {
                   {item.title}
                 </ItemTitle>
                 <Typography variant="body2" color={theme === 'light' ? 'dark' : 'light'}>
-                  ${item.price.toFixed(2)} each
+                  {t('currency', { price: item.price.toFixed(2) })} {t('each')}
                 </Typography>
               </ItemInfo>
 
@@ -240,13 +268,13 @@ export default function CartPage() {
                   size="small"
                   onClick={() => removeFromCart(item.id)}
                 >
-                  Remove
+                  {t('remove')}
                 </Button>
               </QuantityControls>
 
               <ItemPrice>
                 <Typography variant="h6" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {t('currency', { price: (item.price * item.quantity).toFixed(2) })}
                 </Typography>
               </ItemPrice>
             </CartItem>
@@ -255,33 +283,33 @@ export default function CartPage() {
 
         <CartSummary>
           <Typography variant="h5" color={theme === 'light' ? 'dark' : 'light'} weight="bold" style={{ marginBottom: '1rem' }}>
-            Order Summary
+            {t('order_summary')}
           </Typography>
           
           <SummaryRow>
             <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
-              Items ({totalItems})
+              {t('items_count', { count: totalItems })}
             </Typography>
             <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} weight="medium">
-              ${totalPrice.toFixed(2)}
+              {t('currency', { price: totalPrice.toFixed(2) })}
             </Typography>
           </SummaryRow>
           
           <SummaryRow>
             <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'}>
-              Shipping
+              {t('shipping')}
             </Typography>
             <Typography variant="body1" color={theme === 'light' ? 'dark' : 'light'} weight="medium">
-              Free
+              {t('free')}
             </Typography>
           </SummaryRow>
           
           <SummaryRow>
             <Typography variant="h6" color={theme === 'light' ? 'dark' : 'light'} weight="bold">
-              Total
+              {t('total')}
             </Typography>
             <Typography variant="h6" color="primary" weight="bold">
-              ${totalPrice.toFixed(2)}
+              {t('currency', { price: totalPrice.toFixed(2) })}
             </Typography>
           </SummaryRow>
 
@@ -290,7 +318,7 @@ export default function CartPage() {
             fullWidth 
             style={{ marginTop: '1rem', marginBottom: '0.5rem' }}
           >
-            Proceed to Checkout
+            {t('proceed_to_checkout')}
           </Button>
           
           <Button 
@@ -298,7 +326,7 @@ export default function CartPage() {
             fullWidth 
             onClick={clearCart}
           >
-            Clear Cart
+            {t('clear_cart')}
           </Button>
           
           <Link href="/">
@@ -307,7 +335,7 @@ export default function CartPage() {
               fullWidth 
               style={{ marginTop: '0.5rem' }}
             >
-              Continue Shopping
+              {t('continue_shopping')}
             </Button>
           </Link>
         </CartSummary>

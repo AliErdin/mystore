@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Product } from '@/types';
 import ProductCard from '@/components/organisms/ProductCard';
 import Typography from '@/components/atoms/Typography';
-import { useTranslation } from 'react-i18next';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/contexts/ThemeContext';
 
 const Grid = styled.div`
@@ -61,7 +61,7 @@ interface ProductGridProps {
 }
 
 export default function ProductGrid({ products, loading = false }: ProductGridProps) {
-  const { t } = useTranslation();
+  const t = useTranslations();
   const { theme } = useTheme();
   if (loading) {
     return (

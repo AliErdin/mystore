@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useState } from 'react';
 import { Product, CartItem, CartContextType } from '@/types';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -56,18 +56,38 @@ function cartReducer(state: CartItem[], action: CartAction): CartItem[] {
 }
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cartItems, dispatch] = useReducer(cartReducer, []);
+  
+  const [isCartLoaded, setIsCartLoaded] = useState(false);
+  
+  const [cartItems, dispatch] = useReducer(cartReducer, [], () => {
+    
+    if (typeof window !== 'undefined') {
+      const savedCart = localStorage.getItem('cart');
+      if (savedCart) {
+        try {
+          return JSON.parse(savedCart);
+        } catch (error) {
+          console.error('Error loading cart from localStorage:', error);
+        }
+      }
+    }
+    return [];
+  });
 
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
       try {
         const parsedCart = JSON.parse(savedCart);
-        dispatch({ type: 'LOAD_CART', payload: parsedCart });
+        if (JSON.stringify(parsedCart) !== JSON.stringify(cartItems)) {
+          dispatch({ type: 'LOAD_CART', payload: parsedCart });
+        }
       } catch (error) {
         console.error('Error loading cart from localStorage:', error);
       }
     }
+    setIsCartLoaded(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -102,6 +122,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     clearCart,
     getTotalItems,
     getTotalPrice,
+    isCartLoaded,
   };
 
   return (

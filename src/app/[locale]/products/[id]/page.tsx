@@ -3,14 +3,17 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getProduct } from '@/lib/api';
 import ProductDetailPage from '@/components/templates/ProductDetailPage';
+import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ id: string, locale: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
+  const t = await getTranslations({ locale: resolvedParams.locale });
+  
   try {
     const product = await getProduct(parseInt(resolvedParams.id));
     
     return {
-      title: `${product.title} - My Store`,
+      title: t('product_page_title', { title: product.title }),
       description: product.description,
       openGraph: {
         title: product.title,
@@ -27,8 +30,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
   } catch {
     return {
-      title: 'Product Not Found - My Store',
-      description: 'The requested product could not be found.',
+      title: t('product_not_found_title'),
+      description: t('product_not_found_desc'),
     };
   }
 }
