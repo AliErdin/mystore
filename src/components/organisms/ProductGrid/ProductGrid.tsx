@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import { Product } from '@/types';
 import ProductCard from '@/components/organisms/ProductCard';
@@ -60,7 +60,7 @@ interface ProductGridProps {
   loading?: boolean;
 }
 
-export default function ProductGrid({ products, loading = false }: ProductGridProps) {
+function ProductGrid({ products, loading = false }: ProductGridProps) {
   const t = useTranslations();
   const { theme } = useTheme();
   if (loading) {
@@ -96,3 +96,5 @@ export default function ProductGrid({ products, loading = false }: ProductGridPr
     </Grid>
   );
 }
+
+export default memo(ProductGrid);
