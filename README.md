@@ -1,5 +1,7 @@
 # MyStore
 
+Live Demo: https://mystore-topaz-iota.vercel.app/tr
+
 ## Proje Kurulumu ve Çalıştırma Yönergeleri
 
 Projeyi başlatmak için aşağıdaki adımları izleyin:
@@ -18,6 +20,22 @@ yarn install
 npm run dev
 # veya
 yarn dev
+```
+
+3. Projenin derlenmesi:
+
+```bash
+npm run build
+# veya
+yarn build
+```
+
+4. Derlenmiş projenin başlatılması:
+
+```bash
+npm run start
+# veya
+yarn start
 ```
 
 Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açarak uygulamayı görüntüleyebilirsiniz.
@@ -59,85 +77,92 @@ npm run test:coverage çıktısı:
 
 ```
 
-------------|---------|----------|---------|---------|-------------------
-File        | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
-------------|---------|----------|---------|---------|-------------------
-All files   |   69.86 |    61.19 |   65.71 |   69.49 |                   
- app        |    6.38 |        0 |      10 |    6.97 |                   
-  ...er.tsx |     100 |      100 |     100 |     100 |                   
-  page.tsx  |       0 |        0 |       0 |       0 | 1-94              
- app/cart   |   83.33 |      100 |     100 |     100 |                   
-  page.tsx  |   83.33 |      100 |     100 |     100 |                   
- ...ts/[id] |       0 |        0 |       0 |       0 |                   
-  page.tsx  |       0 |        0 |       0 |       0 | 1-52              
- components |       0 |        0 |       0 |       0 |                   
-  ...rs.tsx |       0 |        0 |       0 |       0 | 3-176             
-  ...er.tsx |       0 |        0 |       0 |       0 | 3-95              
-  ...on.tsx |       0 |        0 |       0 |       0 | 3-134             
-  ...rd.tsx |       0 |      100 |       0 |       0 | 3-77              
-  ...id.tsx |       0 |        0 |       0 |       0 | 3-81              
- ...s/Badge |     100 |    66.66 |     100 |     100 |                   
-  Badge.tsx |     100 |    66.66 |     100 |     100 | 95-96             
-  index.ts  |     100 |      100 |     100 |     100 |                   
- .../Button |     100 |    77.77 |     100 |     100 |                   
-  ...on.tsx |     100 |    77.77 |     100 |     100 | 90-91             
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...s/Input |     100 |      100 |     100 |     100 |                   
-  Input.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- .../Select |     100 |      100 |     100 |     100 |                   
-  ...ct.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...ography |     100 |    93.33 |     100 |     100 |                   
-  ...hy.tsx |     100 |    93.33 |     100 |     100 | 89                
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...erGroup |     100 |      100 |     100 |     100 |                   
-  ...up.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...ceRange |     100 |       80 |     100 |     100 |                   
-  ...ge.tsx |     100 |       80 |     100 |     100 | 46,54             
-  index.ts  |     100 |      100 |     100 |     100 |                   
- .../Rating |     100 |      100 |     100 |     100 |                   
-  ...ng.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...archBox |     100 |      100 |     100 |     100 |                   
-  ...ox.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- .../Header |   92.59 |       60 |   33.33 |    92.3 |                   
-  ...er.tsx |      92 |       60 |   33.33 |      92 | 74,93             
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...ination |     100 |    93.75 |     100 |     100 |                   
-  ...on.tsx |     100 |    93.75 |     100 |     100 | 114               
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...uctCard |     100 |      100 |     100 |     100 |                   
-  ...rd.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...Filters |     100 |    93.75 |     100 |     100 |                   
-  ...rs.tsx |     100 |    93.75 |     100 |     100 | 56                
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...uctGrid |     100 |      100 |     100 |     100 |                   
-  ...id.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...artPage |   87.87 |       50 |      20 |    87.5 |                   
-  ...ge.tsx |   87.09 |       50 |      20 |   87.09 | 200-239           
-  index.ts  |     100 |      100 |     100 |     100 |                   
- ...ailPage |   83.78 |      100 |   33.33 |    90.9 |                   
-  ...ge.tsx |   88.57 |      100 |   33.33 |   93.75 | 123,127           
-  index.ts  |       0 |      100 |     100 |       0 | 1                 
- ...ctsPage |   84.61 |      100 |     100 |   91.66 |                   
-  ...ge.tsx |     100 |      100 |     100 |     100 |                   
-  index.ts  |       0 |      100 |     100 |       0 | 1                 
- contexts   |   97.91 |    81.25 |     100 |   97.61 |                   
-  ...xt.tsx |   97.91 |    81.25 |     100 |   97.61 | 54                
- lib        |   98.36 |    94.44 |     100 |     100 |                   
-  api.ts    |     100 |      100 |     100 |     100 |                   
-  ...act.ts |      90 |       50 |     100 |     100 | 12                
-  ...ry.tsx |     100 |      100 |     100 |     100 |                   
-------------|---------|----------|---------|---------|-------------------
+-----------------------|---------|----------|---------|---------|-------------------
+File                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-----------------------|---------|----------|---------|---------|-------------------
+All files              |   88.45 |    75.45 |      76 |   88.45 |                   
+ src                   |      75 |        0 |       0 |      75 |                   
+  middleware.ts        |       0 |        0 |       0 |       0 | 1-11              
+  themes.ts            |     100 |      100 |     100 |     100 |                   
+ src/app/[locale]      |   29.65 |       25 |      50 |   29.65 |                   
+  layout.tsx           |   86.44 |    28.57 |     100 |   86.44 | ...29-31,37,39-40 
+  page.tsx             |       0 |        0 |       0 |       0 | 1-113             
+ src/app/[locale]/cart |   55.55 |      100 |      50 |   55.55 |                   
+  page.tsx             |   55.55 |      100 |      50 |   55.55 | 7-14              
+ ...ale]/products/[id] |       0 |        0 |       0 |       0 |                   
+  page.tsx             |       0 |        0 |       0 |       0 | 1-52              
+ ...onents/atoms/Badge |     100 |      100 |     100 |     100 |                   
+  Badge.tsx            |     100 |      100 |     100 |     100 |                   
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...nents/atoms/Button |     100 |      100 |     100 |     100 |                   
+  Button.tsx           |     100 |      100 |     100 |     100 |                   
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...onents/atoms/Input |     100 |      100 |     100 |     100 |                   
+  Input.tsx            |     100 |      100 |     100 |     100 |                   
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...nents/atoms/Select |     100 |      100 |     100 |     100 |                   
+  Select.tsx           |     100 |      100 |     100 |     100 |                   
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...s/atoms/Typography |     100 |    93.75 |     100 |     100 |                   
+  Typography.tsx       |     100 |    93.75 |     100 |     100 | 93                
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...ecules/FilterGroup |     100 |      100 |     100 |     100 |                   
+  FilterGroup.tsx      |     100 |      100 |     100 |     100 |                   
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...lecules/PriceRange |   88.57 |    76.47 |     100 |   88.57 |                   
+  PriceRange.tsx       |   88.46 |    76.47 |     100 |   88.46 | ...54,60-62,73-75 
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...s/molecules/Rating |     100 |    86.66 |     100 |     100 |                   
+  Rating.tsx           |     100 |    86.66 |     100 |     100 | 26,37             
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...olecules/SearchBox |     100 |       75 |     100 |     100 |                   
+  SearchBox.tsx        |     100 |       75 |     100 |     100 | 43                
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...s/organisms/Header |   93.33 |     62.5 |      25 |   93.33 |                   
+  Header.tsx           |    93.9 |    71.42 |   28.57 |    93.9 | 110-119           
+  index.ts             |       0 |        0 |       0 |       0 | 1                 
+ ...ganisms/Pagination |     100 |       95 |     100 |     100 |                   
+  Pagination.tsx       |     100 |       95 |     100 |     100 | 106               
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...anisms/ProductCard |     100 |    93.33 |     100 |     100 |                   
+  ProductCard.tsx      |     100 |    93.33 |     100 |     100 | 85                
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...sms/ProductFilters |     100 |      100 |     100 |     100 |                   
+  ProductFilters.tsx   |     100 |      100 |     100 |     100 |                   
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...anisms/ProductGrid |     100 |    77.77 |     100 |     100 |                   
+  ProductGrid.tsx      |     100 |    77.77 |     100 |     100 | 80-83             
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ ...templates/CartPage |   98.55 |    26.92 |      40 |   98.55 |                   
+  CartPage.tsx         |   98.55 |    26.92 |      40 |   98.55 | 217-220,229       
+  index.ts             |     100 |      100 |     100 |     100 |                   
+ .../ProductDetailPage |   97.86 |    66.66 |      40 |   97.86 |                   
+  ...uctDetailPage.tsx |   98.28 |    71.42 |      50 |   98.28 | 134-135,138-139   
+  index.ts             |       0 |        0 |       0 |       0 | 1                 
+ ...lates/ProductsPage |   98.59 |       40 |      50 |   98.59 |                   
+  ProductsPage.tsx     |     100 |       50 |     100 |     100 | 50-53             
+  index.ts             |       0 |        0 |       0 |       0 | 1                 
+ src/contexts          |   89.28 |    65.85 |   78.57 |   89.28 |                   
+  CartContext.tsx      |   86.52 |     64.7 |     100 |   86.52 | ...,86-87,138-139 
+  ThemeContext.tsx     |   96.36 |    71.42 |      40 |   96.36 | 30-31             
+ src/i18n              |      25 |        0 |       0 |      25 |                   
+  navigation.ts        |       0 |        0 |       0 |       0 | 1-7               
+  request.ts           |       0 |        0 |       0 |       0 | 1-11              
+  routing.ts           |     100 |      100 |     100 |     100 |                   
+ src/lib               |   86.52 |    95.83 |   83.33 |   86.52 |                   
+  api.ts               |     100 |      100 |     100 |     100 |                   
+  registry.tsx         |   80.55 |       75 |     100 |   80.55 | 30-36             
+  ...mponentsConfig.ts |      50 |      100 |       0 |      50 | 13-24             
+ src/types             |       0 |        0 |       0 |       0 |                   
+  index.ts             |       0 |        0 |       0 |       0 | 1-44              
+-----------------------|---------|----------|---------|---------|-------------------
 
 Test Suites: 22 passed, 22 total
 Tests:       1 skipped, 211 passed, 212 total
 Snapshots:   0 total
-Time:        9.671 s
+Time:        11.04 s
 ```
 
+Canlı Ortam Google Page Insight Skoru: 99/100
+
+https://pagespeed.web.dev/report?url=https://mystore-topaz-iota.vercel.app/tr
