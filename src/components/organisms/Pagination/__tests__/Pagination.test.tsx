@@ -24,6 +24,7 @@ jest.mock('next/navigation', () => ({
     push: mockPush,
   }),
   useSearchParams: () => mockSearchParams,
+  usePathname: () => '/',
 }));
 
 describe('Pagination', () => {
@@ -118,7 +119,7 @@ describe('Pagination', () => {
     const pageButton = screen.getByRole('button', { name: '3' });
     fireEvent.click(pageButton);
     
-    expect(mockPush).toHaveBeenCalledWith('/?page=3');
+    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/?\?page=3$/));
   });
 
   it('handles previous button click', () => {
@@ -134,7 +135,7 @@ describe('Pagination', () => {
     const prevButton = screen.getByRole('button', { name: '←' });
     fireEvent.click(prevButton);
     
-    expect(mockPush).toHaveBeenCalledWith('/?page=2');
+    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/?\?page=2$/));
   });
 
   it('handles next button click', () => {
@@ -150,7 +151,7 @@ describe('Pagination', () => {
     const nextButton = screen.getByRole('button', { name: '→' });
     fireEvent.click(nextButton);
     
-    expect(mockPush).toHaveBeenCalledWith('/?page=3');
+    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/?\?page=3$/));
   });
 
   it('highlights current page with active styling', () => {

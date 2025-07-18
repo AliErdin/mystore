@@ -28,6 +28,7 @@ jest.mock('next/navigation', () => ({
     push: mockPush,
   }),
   useSearchParams: () => mockSearchParams,
+  usePathname: () => '/',
 }));
 
 jest.useFakeTimers();

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import styled from 'styled-components';
 import FilterGroup from '@/components/molecules/FilterGroup';
 import SearchBox from '@/components/molecules/SearchBox';
@@ -37,6 +37,7 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
   const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const [search, setSearch] = useState(searchParams.get('search') || '');
 
@@ -45,6 +46,9 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
   }, [searchParams]);
 
   const updateFilters = useCallback((key: string, value: string) => {
+  if ((searchParams.get(key) || '') === value) {
+    return;
+  }
   const params = new URLSearchParams(searchParams.toString());
 
   if (value) {
@@ -57,11 +61,11 @@ export default function ProductFilters({ categories }: ProductFiltersProps) {
     params.delete('page');
   }
 
-  router.push(`/?${params.toString()}`);
-}, [router, searchParams]);
+  router.push(`${pathname}?${params.toString()}`);
+}, [router, searchParams, pathname]);
 
   const clearFilters = () => {
-    router.push('/');
+    router.push(pathname);
   };
 
   const handleSearch = useCallback((value: string) => {
